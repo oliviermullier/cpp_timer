@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 <copyright holder> <email>
+ * Copyright 2020 <Olivier Mullierr> <oliviermullier@gmail.com>
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,32 @@
  */
 
 #include "cpp_timer.h"
-
-cpp_Timer::cpp_Timer()
+cpp_Timer::cpp_Timer(bool print_on_destruct)
 {
+    _print_on_destruct = print_on_destruct;
     _start = std::chrono::high_resolution_clock::now();
 }
 
 cpp_Timer::~cpp_Timer()
 {
-    _end = std::chrono::high_resolution_clock::now();
-    _duration = std::chrono::duration_cast<std::chrono::duration<double>>(_end - _start);
-    double ms = _duration.count() * 1000.0;
-    std::cout << "Final duration : " << _duration.count() << "s (" << ms << "ms)" << std::endl;
+    if (_print_on_destruct){
+        _end = std::chrono::high_resolution_clock::now();
+        _duration = std::chrono::duration_cast<std::chrono::duration<double>>(_end - _start);
+        double ms = _duration.count() * 1000.0;
+        std::cout << "Final duration : " << _duration.count() << "s (" << ms << "ms)" << std::endl;
+    }
 }
+
+
+void cpp_Timer::restart()
+{
+    _start = std::chrono::high_resolution_clock::now();
+}
+
+
+double cpp_Timer::get_duration()
+{
+    _end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::duration<double>>(_end - _start).count();
+}
+

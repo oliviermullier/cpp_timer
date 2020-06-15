@@ -19,27 +19,31 @@
 
 #include <iostream>
 #include <chrono>
-
 /**
- * @todo write docs
+ * class to time any scope an object of this class is created in.
+ * behaviour: create an object of this class in any scope you want to time.
+ * The duration between its creation and destruction is sent to cout.
  */
 class cpp_Timer
 {
     
 private:
+    bool _print_on_destruct;
     std::chrono::high_resolution_clock::time_point _start, _end;
     std::chrono::duration<double> _duration;
 public:
     /**
-     * Default constructor
+     * Default constructor: stores the starting time the object is created
      */
-    cpp_Timer();
+    cpp_Timer(bool print_on_destruct = false);
 
+    void restart();
+    
+    double get_duration();
     /**
-     * Destructor
+     * Destructor : print in the standard output the time between the creation of the object and the destruction of it.
      */
     ~cpp_Timer();
 
 };
-
 #endif // TIMER_H

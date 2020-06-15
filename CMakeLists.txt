@@ -12,15 +12,17 @@ file(GLOB source_files "${source_dir}/*.cpp")
 file(GLOB header_files "${source_dir}/*.h")
 add_library(cpp_timer ${source_files})
 
+# set(GENERATED_HEADER_DIR ${CMAKE_CURRENT_BINARY_DIR})
 set_target_properties(cpp_timer PROPERTIES 
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
     PUBLIC_HEADER ${header_files}
+    INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/include
 )
     
 configure_file(cpp_timer.pc.in cpp_timer.pc @ONLY)
 
-target_include_directories(cpp_timer PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/cpp_timer>)
+# target_include_directories(cpp_timer PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/cpp_timer>)
 
 install(TARGETS cpp_timer
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
